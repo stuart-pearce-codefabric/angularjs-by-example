@@ -12,6 +12,7 @@ var inject = require("gulp-inject");
 var clean = require('gulp-clean');
 var replace = require('gulp-replace');
 var gulpAngularExtender = require('gulp-angular-extender');
+var karma = require('karma').Server;
 
 //Convert all HTML tpl files to Angular template module
 gulp.task('create-templates', function() {
@@ -99,3 +100,11 @@ gulp.task('build', ['create-templates', 'inject-templates', 'usemin', 'add-depen
 
 //Default task which simply servers the source files
 gulp.task('default', ['connect-dev']);
+
+// Add a test task to run Karma tests
+gulp.task('test', function(done) {
+    new karma({
+        configFile: __dirname + '/karma.conf.js',
+        singleRun: true
+    }, done).start();
+});
