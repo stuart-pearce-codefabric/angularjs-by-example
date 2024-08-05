@@ -1,20 +1,19 @@
-angular
-    .module('app.core')
-    .directive('show', show);
-function show(ShowService) {
-    var directive = {
-        controller: controller,
-        templateUrl: 'components/show/show.tpl.html',
-        restrict: 'E',
-        scope: {
-            show: '='
-        }
-    };
-    return directive;
-    function controller($scope) {
-        $scope.genres = [];
-        ShowService.get($scope.show.id).then(function(response){
-            $scope.genres = response.genres;
-        });
-    }
+import { Directive, Input, OnInit } from '@angular/core';
+import { ShowService } from '../../services/show.service';
+
+@Directive({
+  selector: 'show',
+  templateUrl: 'components/show/show.tpl.html'
+})
+export class ShowDirective implements OnInit {
+  @Input() show: any;
+  genres: any[] = [];
+
+  constructor(private showService: ShowService) {}
+
+  ngOnInit() {
+    this.showService.get(this.show.id).then(response => {
+      this.genres = response.genres;
+    });
+  }
 }

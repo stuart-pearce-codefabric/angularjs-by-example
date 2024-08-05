@@ -1,3 +1,8 @@
-'use strict';
-angular.module('app.services', []);
+import { NgModule } from '@angular/core';
 
+@NgModule({
+  declarations: [],
+  imports: [],
+  providers: []
+})
+export class AppServicesModule {}

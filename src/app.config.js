@@ -1,37 +1,53 @@
-'use strict';
-angular
-    .module('app.config', [])
-    .config(configs)
-    .run(runs);
+import { NgModule, Injectable } from '@angular/core';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
-function configs($httpProvider) {
-    var interceptor = function($location, $log, $q) {
-        function error(response) {
-            if (response.status === 401) {
-                $log.error('You are unauthorised to access the requested resource (401)');
-            } else if (response.status === 404) {
-                $log.error('The requested resource could not be found (404)');
-            } else if (response.status === 500) {
-                $log.error('Internal server error (500)');
-            }
-            return $q.reject(response);
+@NgModule({
+  imports: [
+    HttpClientModule,
+    RouterModule
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: Interceptor,
+      multi: true
+    }
+  ]
+})
+export class AppConfigModule {}
+
+@Injectable()
+export class Interceptor implements HttpInterceptor {
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    return next.handle(req).pipe(
+      tap(
+        event => {},
+        error => {
+          if (error.status === 401) {
+            console.error('You are unauthorised to access the requested resource (401)');
+          } else if (error.status === 404) {
+            console.error('The requested resource could not be found (404)');
+          } else if (error.status === 500) {
+            console.error('Internal server error (500)');
+          }
         }
-        function success(response) {
-            //Request completed successfully
-            return response;
-        }
-        return function(promise) {
-            return promise.then(success, error);
-        }
-    };
-    $httpProvider.interceptors.push(interceptor);
+      )
+    );
+  }
 }
 
-function runs($rootScope, PageValues) {
-    $rootScope.$on('$routeChangeStart', function() {
-        PageValues.loading = true;
-    });
-    $rootScope.$on('$routeChangeSuccess', function() {
-        PageValues.loading = false;
-    });
+@Injectable()
+export class RouteChangeService {
+  constructor(private pageValues: PageValues) {}
+
+  onRouteChangeStart() {
+    this.pageValues.loading = true;
+  }
+
+  onRouteChangeSuccess() {
+    this.pageValues.loading = false;
+  }
 }

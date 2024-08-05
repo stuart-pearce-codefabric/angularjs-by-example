@@ -1,51 +1,24 @@
-'use strict';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './sections/home/home.component';
+import { PremieresComponent } from './sections/premieres/premieres.component';
+import { SearchComponent } from './sections/search/search.component';
+import { PopularComponent } from './sections/popular/popular.component';
+import { ViewComponent } from './sections/view/view.component';
+import { ShowService } from './services/show.service';
 
-angular
-    .module('app.routes', ['ngRoute'])
-    .config(config);
+const routes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'premieres', component: PremieresComponent, resolve: { shows: ShowService.getPremieres } },
+  { path: 'search', component: SearchComponent },
+  { path: 'search/:query', component: SearchComponent },
+  { path: 'popular', component: PopularComponent, resolve: { shows: ShowService.getPopular } },
+  { path: 'view/:id', component: ViewComponent, resolve: { show: ShowService.get } },
+  { path: '**', redirectTo: '' }
+];
 
-function config ($routeProvider) {
-    $routeProvider.
-        when('/', {
-            templateUrl: 'sections/home/home.tpl.html',
-            controller: 'HomeController as home'
-        })
-        .when('/premieres', {
-            templateUrl: 'sections/premieres/premieres.tpl.html',
-            controller: 'PremieresController as premieres',
-            resolve: {
-                shows: function(ShowService) {
-                    return ShowService.getPremieres();
-                }
-            }
-        })
-        .when('/search', {
-            templateUrl: 'sections/search/search.tpl.html',
-            controller: 'SearchController as search'
-        })
-        .when('/search/:query', {
-            templateUrl: 'sections/search/search.tpl.html',
-            controller: 'SearchController as search'
-        })
-        .when('/popular', {
-            templateUrl: 'sections/popular/popular.tpl.html',
-            controller: 'PopularController as popular',
-            resolve: {
-                shows: function(ShowService) {
-                    return ShowService.getPopular();
-                }
-            }
-        })
-        .when('/view/:id', {
-            templateUrl: 'sections/view/view.tpl.html',
-            controller: 'ViewController as view',
-            resolve: {
-                show: function(ShowService, $route) {
-                    return ShowService.get($route.current.params.id);
-                }
-            }
-        })
-        .otherwise({
-            redirectTo: '/'
-        });
-}
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutesModule {}
