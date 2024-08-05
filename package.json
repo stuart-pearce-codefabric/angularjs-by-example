@@ -4,7 +4,9 @@
   "description": "An example application to demonstrate a wide range of AngularJS best practices",
   "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "playwright:test": "playwright test",
+    "playwright:install": "playwright install"
   },
   "repository": {
     "type": "git",
@@ -36,6 +38,7 @@
     "gulp-inject": "~1.0.2",
     "gulp-clean": "~0.3.1",
     "gulp-replace": "~0.4.0",
-    "gulp-angular-extender": "~0.1.0"
+    "gulp-angular-extender": "~0.1.0",
+    "playwright": "^1.12.3"
   }
 }
