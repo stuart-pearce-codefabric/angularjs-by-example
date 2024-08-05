@@ -4,7 +4,7 @@
   "description": "An example application to demonstrate a wide range of AngularJS best practices",
   "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "karma start"
   },
   "repository": {
     "type": "git",
@@ -36,6 +36,11 @@
     "gulp-inject": "~1.0.2",
     "gulp-clean": "~0.3.1",
     "gulp-replace": "~0.4.0",
-    "gulp-angular-extender": "~0.1.0"
+    "gulp-angular-extender": "~0.1.0",
+    "karma": "^6.3.4",
+    "karma-jasmine": "^4.0.1",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-coverage": "^2.0.3",
+    "jasmine-core": "^3.8.0"
   }
 }

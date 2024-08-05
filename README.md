@@ -14,6 +14,20 @@ To do
 * Add a contact page to the application to demonstrate form implementation and validation in AngularJS
 * Add tests for the majority of the application and accompanying tutorials
 
+Running Tests
+===
+
+To run the tests locally, use the following command:
+
+```
+npm test
+```
+
+Automated Build and Test Process
+===
+
+This project uses GitHub Actions to automate the build and test process. Each time a pull request is opened, the tests will be run automatically. You can find the configuration file for the GitHub Actions workflow in the `.github/workflows/test.yml` file.
+
 Licence
 ===
 
